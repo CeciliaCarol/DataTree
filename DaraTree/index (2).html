@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulação de Banco de Dados com Árvore BST</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+           
+           
+        }
+
+
+        h1 {
+            text-align: center;
+        }
+
+
+        #formInputs {
+            margin: 20px;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: rgb(190, 203, 239);
+            width: 200px;
+           
+        }
+
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+
+        input, button {
+            margin-bottom: 10px;
+            border-radius: 25px;
+            border-color: rgb(189, 204, 246);
+           
+        }
+
+
+        button {
+            cursor: pointer;
+            background-color: aliceblue;
+            padding: 10px;
+            margin: 20px;
+        }
+
+
+        #tabelaOutput {
+           
+            margin: 20px;
+        }
+
+
+        .tabela-container {
+            margin-top: 20px;
+            border: 1px solid rgb(189, 204, 246);
+            padding: 10px;
+            border-radius: 30px;
+        }
+
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 20px;
+        }
+
+
+        th, td {
+           
+            border-radius: 10px;
+            padding: 8px;
+            text-align: left;
+        }
+
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+
+        header {
+            padding: 20px;
+            background-color: aliceblue;
+        }
+    </style>
+</head>
+<body>
+    <header>
+    <h1>DataTree</h1>
+    </header>
+
+
+    <div id="formInputs">
+        <label for="nomeTabela">Nome da Tabela:</label>
+        <input type="text" id="nomeTabela">
+        <div id="nomesColunas"></div>
+    </div>
+   
+    <button id="criarTabelaBtn">Criar Tabela</button>
+    <button id="mostrarTabelaBtn">Mostrar Tabela</button>
+    <button id="mostrarTodasTabelasBtn">Mostrar Todas as Tabelas</button>
+    <button id="inserirRegistroBtn">Inserir Registro</button>
+   
+
+
+    <div id="tabelaOutput" class="tabela-container"></div>
+
+
+    <script>
+        class No {
+            constructor(valor) {
+                this.valor = valor;
+                this.tabela = null;
+                this.esquerda = null;
+                this.direita = null;
+            }
+        }
+
+
+        class ArvoreBinariaBusca {
+            constructor() {
+                this.raiz = null;
+            }
+
+
+            inserir(tabela) {
+                if (this.raiz === null) {
+                    this.raiz = new No(tabela.nome);
+                    this.raiz.tabela = tabela;
+                } else {
+                    this._inserirRecursivo(tabela, this.raiz);
+                }
+            }
+
+
+            _inserirRecursivo(tabela, noAtual) {
+                if (tabela.nome < noAtual.valor) {
+                    if (noAtual.esquerda === null) {
+                        noAtual.esquerda = new No(tabela.nome);
+                        noAtual.esquerda.tabela = tabela;
+                    } else {
+                        this._inserirRecursivo(tabela, noAtual.esquerda);
+                    }
+                } else if (tabela.nome > noAtual.valor) {
+                    if (noAtual.direita === null) {
+                        noAtual.direita = new No(tabela.nome);
+                        noAtual.direita.tabela = tabela;
+                    } else {
+                        this._inserirRecursivo(tabela, noAtual.direita);
+                    }
+                }
+                // Se o nome já existe, pode-se decidir o que fazer (substituir, adicionar, etc.)
+            }
+
+
+            buscar(nomeTabela) {
+                return this._buscarRecursivo(nomeTabela, this.raiz);
+            }
+
+
+            _buscarRecursivo(nomeTabela, noAtual) {
+                if (noAtual === null || noAtual.valor === nomeTabela) {
+                    return noAtual ? noAtual.tabela : null;
+                }
+                if (nomeTabela < noAtual.valor) {
+                    return this._buscarRecursivo(nomeTabela, noAtual.esquerda);
+                }
+                return this._buscarRecursivo(nomeTabela, noAtual.direita);
+            }
+
+
+            mostrarTodas() {
+                const resultados = [];
+                this._mostrarTodasRecursivo(this.raiz, resultados);
+                return resultados;
+            }
+
+
+            _mostrarTodasRecursivo(noAtual, resultados) {
+                if (noAtual !== null) {
+                    this._mostrarTodasRecursivo(noAtual.esquerda, resultados);
+                    resultados.push(noAtual.tabela);
+                    this._mostrarTodasRecursivo(noAtual.direita, resultados);
+                }
+            }
+
+
+            criarTabela() {
+                const nomeTabela = prompt("Digite o nome da tabela: ");
+                const numColunas = parseInt(prompt("Digite o número de colunas: "));
+
+
+                const colunas = [];
+                let chavePrimaria = null;
+
+
+                for (let i = 0; i < numColunas; i++) {
+                    const nomeColuna = prompt("Digite o nome da coluna: ");
+                    const tipoColuna = prompt("Digite o tipo da coluna: ");
+                    const nullable = prompt("A coluna é NULL ou NOT NULL? ");
+                    const chavePrimariaInput = prompt("A coluna é chave primária? (S/N) ");
+
+
+                    const coluna = {
+                        nome: nomeColuna,
+                        tipo: tipoColuna,
+                        nullable: nullable,
+                        chavePrimaria: chavePrimariaInput === "S",
+                    };
+
+
+                    colunas.push(coluna);
+
+
+                    if (coluna.chavePrimaria) {
+                        if (chavePrimaria === null) {
+                            chavePrimaria = nomeColuna;
+                        } else {
+                            console.log("Erro: A tabela só pode ter uma chave primária. Ignorando a chave primária atual.");
+                            coluna.chavePrimaria = false;
+                        }
+                    }
+                }
+
+
+                // Lógica para criar a tabela com as colunas definidas
+                const tabela = {
+                    nome: nomeTabela,
+                    colunas: colunas,
+                    chavePrimaria: chavePrimaria,
+                    registros: [],
+                };
+
+
+                this.inserir(tabela);
+                console.log(`Tabela ${nomeTabela} criada com sucesso!`);
+            }
+
+
+            inserirRegistro(nomeTabela, valores) {
+                const tabela = this.buscar(nomeTabela);
+
+
+                if (tabela) {
+                    tabela.registros.push(valores);
+                    console.log(`Registro inserido na tabela ${nomeTabela} com sucesso!`);
+                } else {
+                    console.log(`Tabela ${nomeTabela} não encontrada!`);
+                }
+            }
+
+
+           
+        }
+
+
+        const arvore = new ArvoreBinariaBusca();
+
+
+        document.getElementById("criarTabelaBtn").addEventListener("click", function () {
+            arvore.criarTabela();
+        });
+
+
+        document.getElementById("mostrarTabelaBtn").addEventListener("click", function () {
+    const nomeTabela = document.getElementById("nomeTabela").value;
+    const tabela = arvore.buscar(nomeTabela);
+
+
+    if (tabela) {
+        const outputDiv = document.getElementById("tabelaOutput");
+        outputDiv.innerHTML = `<h2>${nomeTabela}</h2>`;
+        const tabelaHtml = document.createElement("table");
+        const headerRow = document.createElement("tr");
+
+
+        tabela.colunas.forEach(coluna => {
+            const th = document.createElement("th");
+            th.textContent = `${coluna.nome} (${coluna.tipo})`;
+            headerRow.appendChild(th);
+        });
+
+
+        tabelaHtml.appendChild(headerRow);
+
+
+        tabela.registros.forEach(registro => {
+            const row = document.createElement("tr");
+
+
+            registro.forEach((valor, index) => {
+                const td = document.createElement("td");
+                const coluna = tabela.colunas[index];
+                td.textContent = `${valor}`;
+                row.appendChild(td);
+            });
+
+
+            tabelaHtml.appendChild(row);
+        });
+
+
+        outputDiv.appendChild(tabelaHtml);
+    } else {
+        console.log(`Tabela ${nomeTabela} não encontrada!`);
+    }
+});
+
+
+        document.getElementById("mostrarTodasTabelasBtn").addEventListener("click", function () {
+            const todasTabelas = arvore.mostrarTodas();
+            const outputDiv = document.getElementById("tabelaOutput");
+            outputDiv.innerHTML = "<h2>Todas as Tabelas</h2>";
+
+
+            todasTabelas.forEach(tabela => {
+                const tabelaHtml = document.createElement("div");
+                tabelaHtml.innerHTML = `<h3>${tabela.nome}</h3>`;
+                outputDiv.appendChild(tabelaHtml);
+            });
+        });
+
+
+        document.getElementById("inserirRegistroBtn").addEventListener("click", function () {
+            const nomeTabela = document.getElementById("nomeTabela").value;
+            const tabela = arvore.buscar(nomeTabela);
+
+
+            if (tabela) {
+                const valores = [];
+                tabela.colunas.forEach(coluna => {
+                    const valor = prompt(`Digite o valor para a coluna ${coluna.nome}:`);
+                    valores.push(valor);
+                });
+
+
+                arvore.inserirRegistro(nomeTabela, valores);
+            } else {
+                console.log(`Tabela ${nomeTabela} não encontrada!`);
+            }
+        });
+
+
+        document.getElementById("mostrarRegistrosBtn").addEventListener("click", function () {
+            const nomeTabela = document.getElementById("nomeTabela").value;
+            arvore.mostrarRegistros(nomeTabela);
+        });
+    </script>
+</body>
+</html>
+
+
+
