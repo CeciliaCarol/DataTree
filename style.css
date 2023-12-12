@@ -1,0 +1,115 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+   
+   
+}
+
+
+h1 {
+    text-align: center;
+}
+
+
+#formInputs {
+    margin: 20px;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: rgb(190, 203, 239);
+    width: 200px;
+   
+}
+
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+
+input, button {
+    margin-bottom: 10px;
+    border-radius: 25px;
+    border-color: rgb(189, 204, 246);
+   
+}
+
+
+button {
+    cursor: pointer;
+    background-color: aliceblue;
+    padding: 10px;
+    margin: 20px;
+}
+
+
+#tabelaOutput {
+   
+    margin: 20px;
+}
+
+
+.tabela-container {
+    margin-top: 20px;
+    border: 1px solid rgb(189, 204, 246);
+    padding: 10px;
+    border-radius: 30px;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+
+th, td {
+   
+    border-radius: 10px;
+    padding: 8px;
+    text-align: left;
+}
+
+
+th {
+    background-color: #f2f2f2;
+}
+
+
+header {
+    padding: 20px;
+    background-color: aliceblue;
+}
+
+.primaryKey {
+    background-color: rgb(239, 228, 165);
+}
+
+.card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 40px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  .primaryKey {
+      background-color: rgb(239, 228, 165);
+  }

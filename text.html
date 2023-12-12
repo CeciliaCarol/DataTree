@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DataTree</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <style>
+    
+    
+    
+  </style>
+</head>
+<body>
+<header>
+  <h1>DataTree</h1>
+</header>
+  <div class="card">
+    <h3>Criar Tabela</h3>
+    <form id="createTableForm">
+      <label for="tableName">Nome da Tabela:</label>
+      <input type="text" id="tableName" required>
+      <br>
+      <label for="columns">Colunas (separadas por vírgula):</label>
+      <input type="text" id="columns" required>
+      <br>
+      <label for="primaryKey">Chave Primária:</label>
+      <input type="text" id="primaryKey" required>
+      <br>
+      <button type="button" onclick="criarTabela()">Criar Tabela</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h3>Inserir Registro</h3>
+    <form id="insertRecordForm">
+      <label for="insertTableName">Nome da Tabela:</label>
+      <select id="insertTableName" required></select>
+      <br>
+      <label for="recordValues">Valores (separados por vírgula):</label>
+      <input type="text" id="recordValues">
+      <br>
+      <button type="button" onclick="inserirRegistro()">Inserir Registro</button>
+      
+      <button type="button" onclick="editarRegistro()">Editar</button>
+      
+      <button type="button" onclick="excluirRegistro()">Excluir</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h3>Mostrar Tabela</h3>
+    <button type="button" onclick="mostrarTabela()">Mostrar Tabela</button>
+    <table id="databaseContents" >
+      <thead id="headerRow"></thead>
+      <tbody id="dataRows"></tbody>
+    </table>
+  </div>
+
+  <script src="script.js">
+
+  </script>
+
+</body>
+</html>
